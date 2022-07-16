@@ -60,3 +60,16 @@ shown to work in your program:
 Feature is in module AmsAssesment\POSScanner, found in `app/code/AmsAssessment/POSScanner`.
 
 <hr />
+Part 3:
+<pre>
+Please review the following story and provide easy-to-understand steps on the best
+way to build this feature:
+
+“As an Admin - I want to the ability for a customer to download a CSV file of all the items
+that are currently in their cart and this feature can be enabled or disabled as needed by
+the Admin.”
+</pre>
+
+1. Create a new Magento 2 module which requires `Magento_Checkout` module.
+2. Create CSV download of current cart items in new module.
+3. Create Admin panel to enable/disable CSV download.
