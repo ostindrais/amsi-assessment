@@ -1,84 +1,62 @@
+## Asset Marketing Services, LLC Skills Assessment ##
 
-<p align="center">
-<a href="https://www.codetriage.com/magento/magento2"><img src="https://www.codetriage.com/magento/magento2/badges/users.svg" alt="Open Source Helpers" /></a>
-<a href="https://gitter.im/magento/magento2?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter" /></a> <a href="https://crowdin.com/project/magento-2"><img src="https://d322cqt584bo4o.cloudfront.net/magento-2/localized.svg" alt="Crowdin" /></a><br/>
-<a href="https://magento.com/products/magento-open-source">
-<img alt="Adobe logo" height="50px" src="https://www.adobe.com/content/dam/cc/icons/Adobe_Corporate_Horizontal_Red_HEX.svg"/>
-</a>
-</p>
+Part 1:
+<pre>
+What is the output of the following PHP code and explain why:
+$a = '1';
+$b = &$a;
+$b = "2$b";
+echo $a.", ".$b;
+</pre>
 
-<h1 align="center">Magento Open Source</h1>
+The output will be:
+`1, 21`
 
-Welcome to the Magento Open Source project! [Magento Open Source](https://magento.com/products/magento-open-source) software delivers basic eCommerce capabilities to build a unique online store from the ground up.
+1. The variable `$a` is first set to the string value `1`.
+2. The variable `$b` is then set as a reference to the variable `$a`.
+3. Then variable `$b` is reassigned as the string `2` plus variable `$b`. But because the strings are in double-quotes, the value of `$b` (`1`) is used. If `$b` wasn't `2` but was instead `legit2quit`, then at the end of this step `$b` would equal `2legit2quit`.
+4. Finally, the value of `$a` is printed, followed by a comma, a space and the value of `$b` using the string concatenation operator.
 
-However, for those who need a full-featured eCommerce solution, we recommend [Adobe Commerce](https://magento.com/products/magento-commerce), which includes our optimized cloud architecture and hosting as well as AI-powered merchandising and analytics.
+<hr />
+Part 2:
+<pre>
+Write the following feature in PHP OOP approach:
 
-## Get started
+Consider a store where items have prices per unit but also volume prices. For example, apples
+may be $1.00 each or 4 for $3.00.
 
-- [Quick start install](https://devdocs.magento.com/guides/v2.4/install-gde/composer.html)
-- [System requirements](https://devdocs.magento.com/guides/v2.4/install-gde/system-requirements.html)
-- [Prerequisites](https://devdocs.magento.com/guides/v2.4/install-gde/prereq/prereq-overview.html)
-- [More installation options](https://devdocs.magento.com/guides/v2.4/install-gde/bk-install-guide.html)
+Implement a point-of-sale scanning API that accepts an arbitrary ordering of products (similar to
+what would happen at a checkout line) and then returns the correct total price for an entire
+shopping cart based on the per unit prices or the volume prices as applicable.
 
-## Get help
+Here are the products listed by code and the prices to use (there is no sales tax):
 
-- [Help center](https://support.magento.com/hc/en-us)
+Product Code | Price
+--------------------------------------------------
+A | $2.00 each or 4 for $7.00
+B | $12.00
+C | $1.25 or $6 for a six pack
+D | $0.15
 
-## Contribute
+There should be a top level point of sale terminal Service Object that looks something like the
+pseudo-code below:
 
-Our [Community](https://opensource.magento.com/) is large and diverse, and our project is enormous. As a contributor, you have countless opportunities to impact product development and delivery by introducing new features or improving existing ones, enhancing test coverage, updating documentation for [developers](https://devdocs.magento.com/) and [end-users](https://docs.magento.com/user-guide/), catching and fixing code bugs, suggesting points for optimization, and sharing your great ideas.
+terminal->setPricing(...)
+terminal->scan("A")
+terminal->scan("C")
+result = terminal->total
 
-- [Contribute to the code](https://devdocs.magento.com/contributor-guide/contributing.html)
-- [Report an issue](https://devdocs.magento.com/contributor-guide/contributing.html#report)
-- [Improve the developer documentation](https://github.com/magento/devdocs)
-- [Improve the end-user documentation](https://github.com/magento/merchdocs)
-- [Shape the future of Magento Open Source](https://developer.adobe.com/open/magento)
+You are free to design and implement the rest of the code however you wish, including how you
+specify the prices in the system.
 
-### Maintainers
+Here are the minimal inputs you should use for your test cases. These test cases must be
+shown to work in your program:
 
-We encourage experts from the Community to help us with GitHub routines such as accepting, merging, or rejecting pull requests and reviewing issues. Adobe has granted the Community Maintainers permission to accept, merge, and reject pull requests, as well as review issues. Thanks to invaluable input from the Community Maintainers team, we can significantly improve contribution quality and accelerate the time to deliver your updates to production. 
+1. Scan these items in this order: ABCDABAA; Verify the total price is $32.40.
+2. Scan these items in this order: CCCCCCC; Verify the total price is $7.25.
+3. Scan these items in this order: ABCD; Verify the total price is $15.40.
+</pre>
 
-- [Learn more about the Maintainer role](https://devdocs.magento.com/contributor-guide/maintainers.html)
-- [Maintainer's Handbook](https://devdocs.magento.com/contributor-guide/maintainer-handbook.html)
+Feature is in module AmsAssesment\POSScanner, found in `app/code/AmsAssessment/POSScanner`.
 
-[![](https://raw.githubusercontent.com/wiki/magento/magento2/images/maintainers.png)](https://magento.com/magento-contributors#maintainers)
-
-### Leaders
-
-Adobe highly appreciates contributions that help us to improve the code, clarify the documentation, and increase test coverage. Check out our Community leaders, superstars, and superheroes on the [leaderboard](https://magento.biterg.io/app/kibana#/dashboard/41dc0c60-fa06-11eb-bbaa-dd6ca6f8fda8?_g=()).
-
-[![](https://raw.githubusercontent.com/wiki/magento/magento2/images/contributors.png)](https://magento.com/magento-contributors)
-
-### Labeling
-
-We use labels in the GitHub issues and pull requests to help the participants retrieve additional information such as progress, component assignments, or release lines.
-
-- [Labels applied by the Community Engineering team](https://devdocs.magento.com/contributor-guide/contributing.html#labels)
-
-## Security
-
-[Security](https://devdocs.magento.com/guides/v2.4/architecture/security_intro.html) is one of the highest priorities at Adobe. To learn more about reporting security concerns, visit the [Adobe Bug Bounty Program](https://hackerone.com/adobe).
-
-Stay up-to-date on the latest security news and patches by signing up for [Security Alert Notifications](https://magento.com/security/sign-up).
-
-## Licensing
-
-Each Magento source file included in this distribution is licensed under OSL 3.0 or the terms and conditions of the applicable ordering document between Licensee/Customer and Adobe (or Magento).
- 
-[Open Software License (OSL 3.0)](https://opensource.org/licenses/osl-3.0.php) – Please see [LICENSE.txt](LICENSE.txt) for the full text of the OSL 3.0 license.
- 
-Subject to Licensee's/Customer's payment of fees and compliance with the terms and conditions of the applicable ordering document between Licensee/Customer and Adobe (or Magento), the terms and conditions of the applicable ordering between Licensee/Customer and Adobe (or Magento) supersede the OSL 3.0 license for each source file.
-
-## Communications
-
-We are dedicated to our Community and encourage your contributions and welcome feedback through [events](https://www.adobe.io/open/magento/calendar), our [DevBlog](https://community.magento.com/t5/Magento-DevBlog/bg-p/devblog), Twitter and YouTube channels, and [other Community resources](https://devdocs.magento.com/community/resources.html).
-
-To connect with people from the Community and Adobe engineering, [join us in Slack](https://magentocommeng.slack.com). We have a channel for every project. To join a particular channel, send us a request at [engcom@adobe.com](mailto:engcom@adobe.com), or [sign up](https://opensource.magento.com/slack).
-
-- [Popular Slack channels](https://www.adobe.io/open/magento/slack)
-
-If you are a new Community member, check out the following channels:
-
-- [general](https://magentocommeng.slack.com/archives/C4YS78WE6) is an open chat for introductions and Magento 2 questions
-- [github](https://magentocommeng.slack.com/archives/C7KB93M32) is a support channel for GitHub issues, pull requests, and processes
-- [public-backlog](https://magentocommeng.slack.com/archives/CCV3J3RV5) for discussions of the backlog
+<hr />
