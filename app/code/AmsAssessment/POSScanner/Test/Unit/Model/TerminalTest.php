@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace AmsAssessment\POSScanner\Test\Unit\Model;
 
+/*
 require_once '../../../Model/Terminal.php';
 require_once '../../../Model/Product.php';
+*/
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

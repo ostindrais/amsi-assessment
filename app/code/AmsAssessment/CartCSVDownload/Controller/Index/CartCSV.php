@@ -15,14 +15,9 @@ class CartCSV extends \Magento\Framework\App\Action\Action
     protected $fileFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \AmsAssessment\CartCSVDownload\Helper\Data
      */
-    protected $productFactory;
-
-    /**
-     * @var \Magento\Framework\View\Result\LayoutFactory
-     */
-    protected $resultLayoutFactory;
+    protected $dataHelper;
 
     /**
      * @var \Magento\Framework\File\Csv
@@ -36,17 +31,20 @@ class CartCSV extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context            $context
+     * @param \AmsAssessment\CartCSVDownload\Helper\Data       $dataHelper
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Framework\File\Csv                      $csvProcessor
      * @param \Magento\Framework\App\Filesystem\DirectoryList  $directoryList
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \AmsAssessment\CartCSVDownload\Helper\Data $dataHelper,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Framework\File\Csv $csvProcessor,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList
     ) {
         $this->fileFactory = $fileFactory;
+        $this->dataHelper = $dataHelper;
         $this->csvProcessor = $csvProcessor;
         $this->directoryList = $directoryList;
         parent::__construct($context);
@@ -60,7 +58,12 @@ class CartCSV extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        /** Add yout header name here */
+        $csvDownloadEnabled = $this->dataHelper->getFieldConfig('csv_download_enabled');
+        if (!$csvDownloadEnabled) {
+            return;
+        }
+
+        // CSV header
         $content[] = [
             'productID' => __('Product ID'),
             'name' => __('Name'),
@@ -85,7 +88,7 @@ class CartCSV extends \Magento\Framework\App\Action\Action
                 $cartItem->getDiscountAmount()
             ];
         }
-        $fileName = 'currentCart.csv'; // Add Your CSV File name
+        $fileName = 'currentShoppingCart.csv'; // Add Your CSV File name
         $filePath =  $this->directoryList->getPath(DirectoryList::MEDIA) . "/" . $fileName;
         $this->csvProcessor->setEnclosure('"')->setDelimiter(',')->saveData($filePath, $content);
         return $this->fileFactory->create(
